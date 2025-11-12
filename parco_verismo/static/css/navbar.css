@@ -1,18 +1,139 @@
+/* ===== NAVBAR ===== */
 #mainNav {
     background-color: transparent;
-    transition: all 0.3s ease;
-    padding: 1rem 0;
+    transition: all var(--transition-base);
+    padding: var(--space-md) 0;
 }
 
 #mainNav.navbar-scrolled {
-    background-color: yellow;
+    background-color: var(--color-surface);
     backdrop-filter: blur(10px);
-    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-    padding: 0.5rem 0;
-    box-shadow: 0 2px 8px rgba(61, 50, 38, 0.15);
+    border-bottom: 1px solid var(--color-border);
+    padding: var(--space-sm) 0;
+    box-shadow: var(--shadow-md);
 }
 
+/* Logo */
 .logo-header {
     height: 4rem;
-    transition: height 0.3s ease;
+    transition: height var(--transition-base);
+}
+
+#mainNav.navbar-scrolled .logo-header {
+    height: 3rem;
+}
+
+/* Link della navbar */
+#mainNav .navbar-nav .nav-link {
+    color: var(--color-text-primary);
+    font-weight: 500;
+    ;
+    padding: var(--space-sm) var(--space-md);
+    transition: color var(--transition-fast);
+    position: relative;
+}
+
+#mainNav .navbar-nav .nav-link::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 0;
+    height: 2px;
+    background-color: var(--color-primary);
+    transition: width var(--transition-base);
+}
+
+#mainNav .navbar-nav .nav-link:hover {
+    color: var(--color-primary);
+}
+
+#mainNav .navbar-nav .nav-link:hover::after {
+    width: 80%;
+}
+
+#mainNav .navbar-nav .nav-link.active {
+    color: var(--color-primary);
+}
+
+/* Dropdown Menu */
+#mainNav .navbar-nav .dropdown-menu {
+    background-color: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+    box-shadow: var(--shadow-lg);
+    padding: var(--space-sm);
+    margin-top: var(--space-sm);
+}
+
+#mainNav .navbar-nav .dropdown-item {
+    color: var(--color-text-primary);
+    padding: var(--space-sm) var(--space-md);
+    border-radius: var(--radius-sm);
+    transition: all var(--transition-fast);
+}
+
+#mainNav .navbar-nav .dropdown-item:hover {
+    background-color: var(--color-primary-pale);
+    color: var(--color-primary-dark);
+}
+
+#mainNav .navbar-nav .dropdown-item:active {
+    background-color: var(--color-primary-light);
+    color: var(--color-text-inverse);
+}
+
+#mainNav .navbar-nav .dropdown-divider {
+    border-top-color: var(--color-divider);
+    margin: var(--space-sm) 0;
+}
+
+/* Pulsante Prenota */
+#mainNav .navbar-nav .nav-item .btn {
+    padding: var(--space-sm) var(--space-lg);
+    border-radius: var(--radius-md);
+    font-weight: 500;
+    margin-left: var(--space-md);
+}
+
+/* Navbar Toggler (mobile) */
+.navbar-toggler {
+    border-color: var(--color-border-strong);
+    padding: var(--space-sm);
+}
+
+.navbar-toggler:focus {
+    box-shadow: 0 0 0 3px var(--color-primary-pale);
+    border-color: var(--color-primary);
+}
+
+.navbar-toggler-icon {
+    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3e%3cpath stroke='rgb(43, 36, 25)' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e");
+}
+
+/* Responsive */
+@media (max-width: 991px) {
+    #mainNav .navbar-collapse {
+        background-color: var(--color-surface);
+        border-radius: var(--radius-md);
+        padding: var(--space-md);
+        margin-top: var(--space-md);
+        box-shadow: var(--shadow-lg);
+    }
+    
+    #mainNav .navbar-nav .nav-item .btn {
+        margin-left: auto;
+        margin-right: auto;
+        margin-top: var(--space-md);
+        width: auto;
+        min-width: 200px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+    
+    #mainNav .navbar-nav .nav-link::after {
+        display: none;
+    }
 }
