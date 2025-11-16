@@ -1,152 +1,129 @@
-#!/bin/bash
+#!/usr/bin/env bash
 # =============================================================================
-# SCRIPT SETUP AUTOMATICO - Django Starter Project
+# SCRIPT SETUP AUTOMATICO - Parco Letterario Verismo (Linux/Mac)
 # =============================================================================
-# Questo script configura automaticamente l'ambiente di sviluppo
+# Questo script prepara l'ambiente di sviluppo in modo ripetibile.
 
-set -e  # Ferma se c'è un errore
+set -euo pipefail
 
-echo "Setup Automatico Progetto Django"
-echo "===================================="
-echo ""
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+cd "$SCRIPT_DIR"
 
-# Colori per output
+PROJECT_NAME="Parco Letterario Verismo"
+VENV_DIR="$SCRIPT_DIR/.venv"
+VENV_PY="$VENV_DIR/bin/python"
+
 GREEN='\033[0;32m'
 YELLOW='\033[1;33m'
 RED='\033[0;31m'
-NC='\033[0m' # No Color
+NC='\033[0m'
 
+step() {
+    printf "${YELLOW}%s${NC}\n" "$1"
+}
+
+success() {
+    printf "${GREEN}%s${NC}\n" "$1"
+}
+
+error() {
+    printf "${RED}%s${NC}\n" "$1"
+    exit 1
+}
+
+echo "$PROJECT_NAME - Setup automatico"
+echo "=================================="
+echo ""
+
+# ---------------------------------------------------------------------------
 # Verifica prerequisiti
-printf "${YELLOW}Verifico prerequisiti...${NC}\n"
+# ---------------------------------------------------------------------------
+step "Verifico prerequisiti..."
 
-# Verifica Python
-if ! command -v python3 &> /dev/null; then
-    printf "${RED}[ERRORE] Python 3 non trovato! Installalo prima di continuare.${NC}\n"
-    exit 1
-fi
-printf "${GREEN}[OK] Python 3 trovato: $(python3 --version)${NC}\n"
+detect_python() {
+    if command -v python3 >/dev/null 2>&1; then
+        echo "python3"
+    elif command -v python >/dev/null 2>&1; then
+        echo "python"
+    else
+        error "[ERRORE] Python 3 non trovato. Installalo e riprova."
+    fi
+}
 
-# Verifica Node.js
-if ! command -v node &> /dev/null; then
-    printf "${RED}[ERRORE] Node.js non trovato! Installalo prima di continuare.${NC}\n"
-    exit 1
-fi
-printf "${GREEN}[OK] Node.js trovato: $(node --version)${NC}\n"
+PYTHON_CMD="$(detect_python)"
+success "[OK] Python trovato: $($PYTHON_CMD --version 2>&1)"
 
-# Verifica npm
-if ! command -v npm &> /dev/null; then
-    printf "${RED}[ERRORE] npm non trovato! Installalo prima di continuare.${NC}\n"
-    exit 1
-fi
-printf "${GREEN}[OK] npm trovato: $(npm --version)${NC}\n"
+command -v node >/dev/null 2>&1 || error "[ERRORE] Node.js non trovato. Installalo e riprova."
+success "[OK] Node.js trovato: $(node --version)"
+
+command -v npm >/dev/null 2>&1 || error "[ERRORE] npm non trovato. Installalo e riprova."
+success "[OK] npm trovato: $(npm --version)"
 
 echo ""
 
-# 1. Virtual Environment Python
-printf "${YELLOW}[1/6] Creo virtual environment Python...${NC}\n"
-if [ ! -d ".venv" ]; then
-    python3 -m venv .venv
-    printf "${GREEN}[OK] Virtual environment creato${NC}\n"
+# ---------------------------------------------------------------------------
+# 1. Virtual environment Python
+# ---------------------------------------------------------------------------
+step "[1/5] Creo/aggiorno il virtual environment..."
+if [ ! -d "$VENV_DIR" ]; then
+    $PYTHON_CMD -m venv "$VENV_DIR"
+    success "[OK] Virtual environment creato in $VENV_DIR"
 else
-    printf "${GREEN}[OK] Virtual environment già esistente${NC}\n"
+    success "[OK] Virtual environment già presente"
 fi
 
-# 2. Attiva Virtual Environment
-printf "${YELLOW}[2/6] Attivo virtual environment...${NC}\n"
-source .venv/bin/activate
-printf "${GREEN}[OK] Virtual environment attivo${NC}\n"
+# ---------------------------------------------------------------------------
+# 2. Dipendenze Python
+# ---------------------------------------------------------------------------
+step "[2/5] Installo dipendenze Python..."
+"$VENV_PY" -m pip install --upgrade pip
+"$VENV_PY" -m pip install -r requirements.txt
+success "[OK] Dipendenze Python installate"
 
-# 3. Installa Dipendenze Python
-printf "${YELLOW}[3/6] Installo dipendenze Python...${NC}\n"
-pip install --upgrade pip -q
-pip install -r requirements.txt
-printf "${GREEN}[OK] Dipendenze Python installate${NC}\n"
-
-# 4. Installa Dipendenze npm
-printf "${YELLOW}[4/6] Installo dipendenze npm...${NC}\n"
-npm install
-printf "${GREEN}[OK] Dipendenze npm installate${NC}\n"
-
-# 5. Setup Frontend (IMPORTANTE: copia Bootstrap e font in locale)
-printf "${YELLOW}[5/6] Setup frontend...${NC}\n"
-
-# Copia Bootstrap CSS
-echo "  - Copio Bootstrap CSS..."
-cp node_modules/bootstrap/dist/css/bootstrap.min.css parco_verismo/static/css/
-printf "${GREEN}  [OK] Bootstrap CSS copiato${NC}\n"
-
-# Copia Bootstrap JS
-echo "  - Copio Bootstrap JS..."
-mkdir -p parco_verismo/static/js
-cp node_modules/bootstrap/dist/js/bootstrap.bundle.min.js parco_verismo/static/js/
-printf "${GREEN}  [OK] Bootstrap JS copiato${NC}\n"
-
-# Copia Font Montserrat
-echo "  - Copio font Montserrat..."
-mkdir -p parco_verismo/static/fonts/montserrat
-cp -r node_modules/@fontsource/montserrat/files/* parco_verismo/static/fonts/montserrat/ 2>/dev/null || true
-printf "${GREEN}  [OK] Font Montserrat copiato${NC}\n"
-
-# Copia Font Inter
-echo "  - Copio font Inter..."
-mkdir -p parco_verismo/static/fonts/inter
-cp -r node_modules/@fontsource/inter/files/* parco_verismo/static/fonts/inter/ 2>/dev/null || true
-printf "${GREEN}  [OK] Font Inter copiato${NC}\n"
-
-printf "${GREEN}[OK] Frontend configurato completamente${NC}\n"
-
-# 6. Setup Database Django
-printf "${YELLOW}[6/6] Setup database Django...${NC}\n"
-python manage.py migrate
-printf "${GREEN}[OK] Database configurato${NC}\n"
-
-# Verifica che Bootstrap sia stato copiato correttamente
-echo ""
-printf "${YELLOW}Verifico installazione Bootstrap...${NC}\n"
-if [ -f "parco_verismo/static/css/bootstrap.min.css" ]; then
-    SIZE=$(du -h parco_verismo/static/css/bootstrap.min.css | cut -f1)
-    printf "${GREEN}[OK] Bootstrap CSS presente (${SIZE})${NC}\n"
+# ---------------------------------------------------------------------------
+# 3. Dipendenze npm
+# ---------------------------------------------------------------------------
+step "[3/5] Installo dipendenze npm..."
+if [ -f "package-lock.json" ]; then
+    npm ci
 else
-    printf "${RED}[ERRORE] Bootstrap CSS NON trovato!${NC}\n"
+    npm install
 fi
+success "[OK] Dipendenze npm installate"
 
-if [ -f "parco_verismo/static/js/bootstrap.bundle.min.js" ]; then
-    SIZE=$(du -h parco_verismo/static/js/bootstrap.bundle.min.js | cut -f1)
-    printf "${GREEN}[OK] Bootstrap JS presente (${SIZE})${NC}\n"
-else
-    printf "${RED}[ERRORE] Bootstrap JS NON trovato!${NC}\n"
-fi
+# ---------------------------------------------------------------------------
+# 4. Asset frontend
+# ---------------------------------------------------------------------------
+step "[4/5] Copio asset frontend in locale..."
+npm run setup
+success "[OK] Asset frontend copiati tramite scripts/setup-assets.js"
 
-if [ -f "parco_verismo/static/css/styles.css" ]; then
-    printf "${GREEN}[OK] CSS personalizzato presente${NC}\n"
-else
-    printf "${RED}[ERRORE] CSS personalizzato NON trovato!${NC}\n"
-fi
+# ---------------------------------------------------------------------------
+# 5. Database
+# ---------------------------------------------------------------------------
+step "[5/5] Eseguo migrazioni Django..."
+"$VENV_PY" manage.py migrate
+success "[OK] Database aggiornato"
 
-# Fine
+# ---------------------------------------------------------------------------
+# Riepilogo
+# ---------------------------------------------------------------------------
 echo ""
-echo "===================================="
-printf "${GREEN}SETUP COMPLETATO CON SUCCESSO!${NC}\n"
-echo "===================================="
+echo "=================================="
+success "SETUP COMPLETATO CON SUCCESSO"
+echo "=================================="
 echo ""
-printf "${YELLOW}Prossimi passi:${NC}\n"
+step "Prossimi passi:"
+echo "  1. Attiva il virtual environment:"
+echo "     source .venv/bin/activate"
 echo ""
-echo "  1. Crea un superuser admin:"
+echo "  2. Crea un superuser (se necessario):"
 echo "     python manage.py createsuperuser"
 echo ""
-echo "  2. Avvia il server Django:"
+echo "  3. Avvia il server di sviluppo:"
 echo "     python manage.py runserver"
 echo ""
-echo "  3. Apri il browser su:"
-echo "     http://127.0.0.1:8000/"
+echo "  4. Apri http://127.0.0.1:8000/ nel browser"
 echo ""
-echo "  4. Per l'admin panel:"
-echo "     http://127.0.0.1:8000/admin/"
-echo ""
-printf "${YELLOW}Ricorda:${NC}\n"
-echo "   - Attiva sempre il virtual environment:"
-echo "     source .venv/bin/activate   (Linux/Mac)"
-echo "     .venv\\Scripts\\activate      (Windows)"
-echo ""
-echo "   - Per modificare stili: edita parco_verismo/static/css/styles.css"
+echo "Per l'admin: http://127.0.0.1:8000/admin/"
 echo ""

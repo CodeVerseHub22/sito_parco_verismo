@@ -1,157 +1,124 @@
- # =============================================================================
-# SCRIPT SETUP AUTOMATICO - Django Starter Project (Windows PowerShell)
 # =============================================================================
-# Questo script configura automaticamente l'ambiente di sviluppo su Windows
+# SCRIPT SETUP AUTOMATICO - Parco Letterario Verismo (PowerShell)
+# =============================================================================
+# Questo script prepara l'ambiente di sviluppo su Windows.
 
 $ErrorActionPreference = "Stop"
+$ScriptDir = Split-Path -Parent $MyInvocation.MyCommand.Path
+Set-Location $ScriptDir
 
-Write-Host "Setup Automatico Progetto Django" -ForegroundColor Cyan
-Write-Host "====================================" -ForegroundColor Cyan
+function Write-Step($message) { Write-Host $message -ForegroundColor Yellow }
+function Write-Ok($message) { Write-Host $message -ForegroundColor Green }
+function Write-Err($message) { Write-Host $message -ForegroundColor Red }
+
+Write-Host "Parco Letterario Verismo - Setup automatico" -ForegroundColor Cyan
+Write-Host "============================================" -ForegroundColor Cyan
 Write-Host ""
 
-# Verifica prerequisiti
-Write-Host "Verifico prerequisiti..." -ForegroundColor Yellow
+# ---------------------------------------------------------------------------
+# Prerequisiti
+# ---------------------------------------------------------------------------
+Write-Step "Verifico prerequisiti..."
 
-# Verifica Python
-try {
-    $pythonVersion = python --version 2>&1
-    Write-Host "[OK] Python trovato: $pythonVersion" -ForegroundColor Green
-} catch {
-    Write-Host "[ERRORE] Python non trovato! Installalo prima di continuare." -ForegroundColor Red
-    exit 1
+function Get-PythonLauncher {
+    if (Get-Command py -ErrorAction SilentlyContinue) {
+        return @{ Command = "py"; Args = @("-3") }
+    }
+    if (Get-Command python -ErrorAction SilentlyContinue) {
+        return @{ Command = "python"; Args = @() }
+    }
+    throw "[ERRORE] Python 3 non trovato. Installalo e riprova."
 }
 
-# Verifica Node.js
+$pythonLauncher = Get-PythonLauncher
+$pythonVersion = & $pythonLauncher.Command @($pythonLauncher.Args + @("--version"))
+Write-Ok "[OK] Python trovato: $pythonVersion"
+
 try {
     $nodeVersion = node --version
-    Write-Host "[OK] Node.js trovato: $nodeVersion" -ForegroundColor Green
+    Write-Ok "[OK] Node.js trovato: $nodeVersion"
 } catch {
-    Write-Host "[ERRORE] Node.js non trovato! Installalo prima di continuare." -ForegroundColor Red
+    Write-Err "[ERRORE] Node.js non trovato. Installalo e riprova."
     exit 1
 }
 
-# Verifica npm
 try {
     $npmVersion = npm --version
-    Write-Host "[OK] npm trovato: v$npmVersion" -ForegroundColor Green
+    Write-Ok "[OK] npm trovato: v$npmVersion"
 } catch {
-    Write-Host "[ERRORE] npm non trovato! Installalo prima di continuare." -ForegroundColor Red
+    Write-Err "[ERRORE] npm non trovato. Installalo e riprova."
     exit 1
 }
 
 Write-Host ""
 
-# 1. Virtual Environment Python
-Write-Host "[1/6] Creo virtual environment Python..." -ForegroundColor Yellow
-if (-not (Test-Path ".venv")) {
-    python -m venv .venv
-    Write-Host "[OK] Virtual environment creato" -ForegroundColor Green
+$venvPath = ".venv"
+$venvPython = Join-Path $ScriptDir ".venv\Scripts\python.exe"
+
+# ---------------------------------------------------------------------------
+# 1. Virtual environment
+# ---------------------------------------------------------------------------
+Write-Step "[1/5] Creo/aggiorno il virtual environment..."
+if (-not (Test-Path $venvPath)) {
+    & $pythonLauncher.Command @($pythonLauncher.Args + @("-m", "venv", $venvPath))
+    Write-Ok "[OK] Virtual environment creato in $venvPath"
 } else {
-    Write-Host "[OK] Virtual environment già esistente" -ForegroundColor Green
+    Write-Ok "[OK] Virtual environment già presente"
 }
 
-# 2. Installa Dipendenze Python
-Write-Host "[2/6] Installo dipendenze Python..." -ForegroundColor Yellow
-& .\.venv\Scripts\python.exe -m pip install --upgrade pip -q
-& .\.venv\Scripts\python.exe -m pip install -r requirements.txt
-Write-Host "[OK] Dipendenze Python installate" -ForegroundColor Green
+# ---------------------------------------------------------------------------
+# 2. Dipendenze Python
+# ---------------------------------------------------------------------------
+Write-Step "[2/5] Installo dipendenze Python..."
+& $venvPython -m pip install --upgrade pip
+& $venvPython -m pip install -r requirements.txt
+Write-Ok "[OK] Dipendenze Python installate"
 
-# 3. Installa Dipendenze npm
-Write-Host "[3/6] Installo dipendenze npm..." -ForegroundColor Yellow
-npm install
-Write-Host "[OK] Dipendenze npm installate" -ForegroundColor Green
-
-# 4. Setup Frontend (IMPORTANTE: copia Bootstrap e font in locale)
-Write-Host "[4/6] Setup frontend..." -ForegroundColor Yellow
-
-# Copia Bootstrap CSS
-Write-Host "  - Copio Bootstrap CSS..."
-Copy-Item "node_modules\bootstrap\dist\css\bootstrap.min.css" -Destination "parco_verismo\static\css\" -Force
-Write-Host "  [OK] Bootstrap CSS copiato" -ForegroundColor Green
-
-# Copia Bootstrap JS
-Write-Host "  - Copio Bootstrap JS..."
-if (-not (Test-Path "parco_verismo\static\js")) {
-    New-Item -ItemType Directory -Path "parco_verismo\static\js" -Force | Out-Null
-}
-Copy-Item "node_modules\bootstrap\dist\js\bootstrap.bundle.min.js" -Destination "parco_verismo\static\js\" -Force
-Write-Host "  [OK] Bootstrap JS copiato" -ForegroundColor Green
-
-# Copia Font Montserrat
-Write-Host "  - Copio font Montserrat..."
-if (-not (Test-Path "parco_verismo\static\fonts\montserrat")) {
-    New-Item -ItemType Directory -Path "parco_verismo\static\fonts\montserrat" -Force | Out-Null
-}
-if (Test-Path "node_modules\@fontsource\montserrat\files") {
-    Copy-Item "node_modules\@fontsource\montserrat\files\*" -Destination "parco_verismo\static\fonts\montserrat\" -Recurse -Force
-}
-Write-Host "  [OK] Font Montserrat copiato" -ForegroundColor Green
-
-# Copia Font Inter
-Write-Host "  - Copio font Inter..."
-if (-not (Test-Path "parco_verismo\static\fonts\inter")) {
-    New-Item -ItemType Directory -Path "parco_verismo\static\fonts\inter" -Force | Out-Null
-}
-if (Test-Path "node_modules\@fontsource\inter\files") {
-    Copy-Item "node_modules\@fontsource\inter\files\*" -Destination "parco_verismo\static\fonts\inter\" -Recurse -Force
-}
-Write-Host "  [OK] Font Inter copiato" -ForegroundColor Green
-
-Write-Host "[OK] Frontend configurato completamente" -ForegroundColor Green
-
-# 5. Setup Database Django
-Write-Host "[5/6] Setup database Django..." -ForegroundColor Yellow
-& .\.venv\Scripts\python.exe manage.py migrate
-Write-Host "[OK] Database configurato" -ForegroundColor Green
-
-# Verifica che Bootstrap sia stato copiato correttamente
-Write-Host ""
-Write-Host "Verifico installazione Bootstrap..." -ForegroundColor Yellow
-
-if (Test-Path "parco_verismo\static\css\bootstrap.min.css") {
-    $size = (Get-Item "parco_verismo\static\css\bootstrap.min.css").Length / 1KB
-    Write-Host "[OK] Bootstrap CSS presente ($([math]::Round($size, 2)) KB)" -ForegroundColor Green
+# ---------------------------------------------------------------------------
+# 3. Dipendenze npm
+# ---------------------------------------------------------------------------
+Write-Step "[3/5] Installo dipendenze npm..."
+if (Test-Path "package-lock.json") {
+    npm ci
 } else {
-    Write-Host "[ERRORE] Bootstrap CSS NON trovato!" -ForegroundColor Red
+    npm install
 }
+Write-Ok "[OK] Dipendenze npm installate"
 
-if (Test-Path "parco_verismo\static\js\bootstrap.bundle.min.js") {
-    $size = (Get-Item "parco_verismo\static\js\bootstrap.bundle.min.js").Length / 1KB
-    Write-Host "[OK] Bootstrap JS presente ($([math]::Round($size, 2)) KB)" -ForegroundColor Green
-} else {
-    Write-Host "[ERRORE] Bootstrap JS NON trovato!" -ForegroundColor Red
-}
+# ---------------------------------------------------------------------------
+# 4. Asset frontend
+# ---------------------------------------------------------------------------
+Write-Step "[4/5] Copio asset frontend in locale..."
+npm run setup
+Write-Ok "[OK] Asset frontend copiati tramite scripts/setup-assets.js"
 
-if (Test-Path "parco_verismo\static\css\styles.css") {
-    Write-Host "[OK] CSS personalizzato presente" -ForegroundColor Green
-} else {
-    Write-Host "[ERRORE] CSS personalizzato NON trovato!" -ForegroundColor Red
-}
+# ---------------------------------------------------------------------------
+# 5. Database
+# ---------------------------------------------------------------------------
+Write-Step "[5/5] Eseguo migrazioni Django..."
+& $venvPython manage.py migrate
+Write-Ok "[OK] Database aggiornato"
 
-# Fine
+# ---------------------------------------------------------------------------
+# Riepilogo
+# ---------------------------------------------------------------------------
 Write-Host ""
-Write-Host "====================================" -ForegroundColor Cyan
-Write-Host "SETUP COMPLETATO CON SUCCESSO!" -ForegroundColor Green
-Write-Host "====================================" -ForegroundColor Cyan
+Write-Host "============================================" -ForegroundColor Cyan
+Write-Ok "SETUP COMPLETATO CON SUCCESSO"
+Write-Host "============================================" -ForegroundColor Cyan
 Write-Host ""
-Write-Host "Prossimi passi:" -ForegroundColor Yellow
-Write-Host ""
-Write-Host "  1. Crea un superuser admin:"
-Write-Host "     .\.venv\Scripts\python.exe manage.py createsuperuser"
-Write-Host ""
-Write-Host "  2. Avvia il server Django:"
-Write-Host "     .\.venv\Scripts\python.exe manage.py runserver"
-Write-Host ""
-Write-Host "  3. Apri il browser su:"
-Write-Host "     http://127.0.0.1:8000/"
-Write-Host ""
-Write-Host "  4. Per l'admin panel:"
-Write-Host "     http://127.0.0.1:8000/admin/"
-Write-Host ""
-Write-Host "Ricorda:" -ForegroundColor Yellow
-Write-Host "   - Attiva sempre il virtual environment:"
+Write-Step "Prossimi passi:"
+Write-Host "  1. Attiva il virtual environment:"
 Write-Host "     .\.venv\Scripts\Activate.ps1    (PowerShell)"
 Write-Host "     .venv\Scripts\activate.bat      (CMD)"
 Write-Host ""
-Write-Host "   - Per modificare stili: edita parco_verismo/static/css/styles.css"
+Write-Host "  2. Crea un superuser (se serve):"
+Write-Host "     .\.venv\Scripts\python.exe manage.py createsuperuser"
+Write-Host ""
+Write-Host "  3. Avvia il server di sviluppo:"
+Write-Host "     .\.venv\Scripts\python.exe manage.py runserver"
+Write-Host ""
+Write-Host "  4. Apri http://127.0.0.1:8000/ nel browser"
+Write-Host ""
+Write-Host "Per l'admin: http://127.0.0.1:8000/admin/"
 Write-Host ""
