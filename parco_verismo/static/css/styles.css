@@ -2,136 +2,191 @@
    PARCO LETTERARIO VERISMO - SISTEMA DI DESIGN
    ======================================================== */
 
-/* TEMA 1: ROSSO MALPELO (Default)
-   Ispirazione: Terra rossa siciliana, vita rurale */
+/* TEMA 1: TERRE DI VERGA (Default)
+   Palette calda e raffinata ispirata alla terracotta e alla carta antica */
 :root {
-    /* Colori */
-    --color-primary: #B85742;
-    --color-primary-dark: #8B3A2B;
-    --color-primary-light: #D4735E;
-    --color-primary-pale: #F4E5E0;
+    /* Colori principali */
+    --color-primary: #823228;
+    --color-primary-dark: #4A140D;
+    --color-primary-light: #C76A52;
+    --color-primary-pale: #FAEEE7;
     
-    --color-secondary: #C9922E;
-    --color-secondary-dark: #9A7020;
-    --color-secondary-light: #E5B660;
+    --color-secondary: #C08C3B;
+    --color-secondary-dark: #8F6110;
+    --color-secondary-light: #F3C471;
     
-    --color-accent: #6B7F4C;
+    --color-accent: #2F6D5C;
     
-    /* Sfondi */
-    --color-background: #FAF7F2;
-    --color-surface: #FFFFFF;
-    --color-surface-elevated: #F5F0E8;
+    /* Neutri & sfondi */
+    --color-background: #FFFBF7;
+    --color-surface: #FFFEFD;
+    --color-surface-elevated: #F7EDE4;
+    --color-neutral-100: #FBF2EC;
+    --color-neutral-200: #EBDACF;
+    --color-neutral-300: #D8C5BA;
+    --color-neutral-400: #A68476;
     
     /* Testi */
-    --color-text-primary: #2B2419;
-    --color-text-secondary: #5C5449;
-    --color-text-tertiary: #8F8579;
+    --color-text-primary: #2B1A13;
+    --color-text-secondary: #5B4034;
+    --color-text-tertiary: #8A6D60;
     --color-text-inverse: #FFFFFF;
+    --color-heading: color-mix(in srgb, var(--color-primary) 40%, var(--color-text-primary));
     
     /* Bordi */
-    --color-border: #E3DDD3;
-    --color-divider: rgba(43, 36, 25, 0.12);
+    --color-border: #E7D9CA;
+    --color-border-strong: rgba(43, 26, 19, 0.2);
+    --color-divider: rgba(43, 26, 19, 0.12);
     
     /* Stati */
-    --color-success: #5F8D4E;
-    --color-warning: #D4860E;
-    --color-error: #C53929;
-    --color-info: #2B6B8F;
+    --color-success: #4B9F7C;
+    --color-warning: #D07A00;
+    --color-warning-dark: #A85C00;
+    --color-error: #B0382D;
+    --color-info: #2F6E8C;
+    
+    /* Overlay e gradienti */
+    --overlay-hero-start: rgba(43, 26, 19, 0.62);
+    --overlay-hero-end: rgba(43, 26, 19, 0.32);
+    --color-text-inverse-muted: rgba(255, 255, 255, 0.8);
+    --color-inverse-soft: color-mix(in srgb, var(--color-text-inverse) 80%, transparent);
+    --color-inverse-faint: color-mix(in srgb, var(--color-text-inverse) 35%, transparent);
+    --color-inverse-tint: color-mix(in srgb, var(--color-text-inverse) 18%, transparent);
+    --color-inverse-focus-ring: color-mix(in srgb, var(--color-text-inverse) 25%, transparent);
+    --gradient-primary: linear-gradient(135deg, var(--color-primary-dark) 0%, var(--color-primary) 100%);
+    --gradient-secondary: linear-gradient(120deg, var(--color-secondary-dark), var(--color-secondary));
+    --gradient-background: radial-gradient(circle at 20% 20%, color-mix(in srgb, var(--color-primary) 10%, var(--color-background)) 0%, var(--color-background) 45%, var(--color-surface) 100%);
+    --gradient-surface: linear-gradient(180deg, var(--color-surface) 0%, color-mix(in srgb, var(--color-surface) 80%, var(--color-background)) 100%);
     
     /* Ombre */
-    --shadow-sm: 0 1px 2px 0 rgba(43, 36, 25, 0.05);
-    --shadow-md: 0 4px 6px -1px rgba(43, 36, 25, 0.08), 0 2px 4px -1px rgba(43, 36, 25, 0.04);
-    --shadow-lg: 0 10px 15px -3px rgba(43, 36, 25, 0.1), 0 4px 6px -2px rgba(43, 36, 25, 0.05);
+    --shadow-sm: 0 1px 2px 0 rgba(43, 26, 19, 0.06);
+    --shadow-md: 0 8px 24px rgba(43, 26, 19, 0.08);
+    --shadow-lg: 0 18px 45px rgba(43, 26, 19, 0.12);
     
     /* Transizioni */
     --transition-fast: 150ms cubic-bezier(0.4, 0, 0.2, 1);
     --transition-base: 250ms cubic-bezier(0.4, 0, 0.2, 1);
     
-    /* Spacing */
+    /* Spaziatura */
     --space-xs: 0.25rem;
     --space-sm: 0.5rem;
     --space-md: 1rem;
     --space-lg: 1.5rem;
     --space-xl: 2rem;
     
-    /* Border Radius */
+    /* Border radius */
     --radius-sm: 0.25rem;
     --radius-md: 0.5rem;
     --radius-lg: 0.75rem;
     --radius-full: 9999px;
 }
 
-
-/* TEMA 2: MARE E AGRUMI
-   Ispirazione: Mare Ionio, agrumeti siciliani */
+/* TEMA 2: MARE E AGRUMI */
 [data-theme="mediterraneo"] {
-    --color-primary: #2F6B8E;
-    --color-primary-dark: #1E4A61;
-    --color-primary-light: #5A94B8;
-    --color-primary-pale: #E8F3F9;
+    --color-primary: #1F4F70;
+    --color-primary-dark: #0F2C40;
+    --color-primary-light: #5D8EAF;
+    --color-primary-pale: #E3EEF6;
     
-    --color-secondary: #E67E22;
-    --color-secondary-dark: #C66716;
-    --color-secondary-light: #F39C4A;
+    --color-secondary: #F09B2D;
+    --color-secondary-dark: #B5670F;
+    --color-secondary-light: #FFC171;
     
-    --color-accent: #27AE60;
+    --color-accent: #1F8B66;
     
-    --color-background: #F8FAFB;
+    --color-background: #F5FAFF;
     --color-surface: #FFFFFF;
-    --color-surface-elevated: #EEF4F7;
+    --color-surface-elevated: #EEF4F9;
+    --color-neutral-100: #EDF3F7;
+    --color-neutral-200: #D7E4EE;
+    --color-neutral-300: #BBD0DF;
+    --color-neutral-400: #7B95AD;
     
-    --color-text-primary: #1A2332;
-    --color-text-secondary: #4A5F7A;
-    --color-text-tertiary: #7B8FA3;
+    --color-text-primary: #101C2C;
+    --color-text-secondary: #3C4F64;
+    --color-text-tertiary: #6D8297;
     --color-text-inverse: #FFFFFF;
+    --color-heading: color-mix(in srgb, var(--color-primary) 40%, var(--color-text-primary));
     
-    --color-border: #D6E3ED;
-    --color-divider: rgba(26, 35, 50, 0.12);
+    --color-border: #C9D8E5;
+    --color-border-strong: rgba(16, 28, 44, 0.18);
+    --color-divider: rgba(16, 28, 44, 0.12);
     
-    --color-success: #27AE60;
-    --color-warning: #F39C12;
-    --color-error: #E74C3C;
-    --color-info: #3498DB;
+    --color-success: #1F8B66;
+    --color-warning: #F29D2C;
+    --color-warning-dark: #C07113;
+    --color-error: #BD4C3F;
+    --color-info: #2A7FC0;
     
-    --shadow-sm: 0 1px 2px 0 rgba(26, 35, 50, 0.05);
-    --shadow-md: 0 4px 6px -1px rgba(26, 35, 50, 0.08), 0 2px 4px -1px rgba(26, 35, 50, 0.04);
-    --shadow-lg: 0 10px 15px -3px rgba(26, 35, 50, 0.1), 0 4px 6px -2px rgba(26, 35, 50, 0.05);
+    --overlay-hero-start: rgba(16, 28, 44, 0.7);
+    --overlay-hero-end: rgba(16, 28, 44, 0.4);
+    --color-text-inverse-muted: rgba(255,255,255,0.85);
+    --color-inverse-soft: color-mix(in srgb, var(--color-text-inverse) 75%, transparent);
+    --color-inverse-faint: color-mix(in srgb, var(--color-text-inverse) 35%, transparent);
+    --color-inverse-tint: color-mix(in srgb, var(--color-text-inverse) 18%, transparent);
+    --color-inverse-focus-ring: color-mix(in srgb, var(--color-text-inverse) 25%, transparent);
+    --gradient-primary: linear-gradient(135deg, var(--color-primary-dark) 0%, var(--color-primary) 55%, var(--color-primary-light) 100%);
+    --gradient-secondary: linear-gradient(135deg, var(--color-secondary-dark), var(--color-secondary));
+    --gradient-background: radial-gradient(circle at 15% 20%, color-mix(in srgb, var(--color-primary) 15%, var(--color-background)) 0%, var(--color-background) 50%, var(--color-surface) 100%);
+    --gradient-surface: linear-gradient(180deg, var(--color-surface) 0%, color-mix(in srgb, var(--color-surface) 70%, var(--color-background)) 100%);
+    
+    --shadow-sm: 0 1px 2px 0 rgba(16, 28, 44, 0.05);
+    --shadow-md: 0 8px 24px rgba(16, 28, 44, 0.08);
+    --shadow-lg: 0 18px 45px rgba(16, 28, 44, 0.12);
 }
 
-/* TEMA 3: TERRA E ZOLFO
-   Ispirazione: Miniere di zolfo, barocco siciliano */
+/* TEMA 3: TERRA E ZOLFO */
 [data-theme="sicilia"] {
-    --color-primary: #A0522D;
-    --color-primary-dark: #6B3619;
-    --color-primary-light: #CD853F;
-    --color-primary-pale: #F8F0E8;
+    --color-primary: #7A3918;
+    --color-primary-dark: #4B1F09;
+    --color-primary-light: #C6763E;
+    --color-primary-pale: #F7E5D5;
     
-    --color-secondary: #DAA520;
-    --color-secondary-dark: #B8860B;
-    --color-secondary-light: #F0C674;
+    --color-secondary: #BFA239;
+    --color-secondary-dark: #8B7716;
+    --color-secondary-light: #E2C864;
     
-    --color-accent: #C39D3C;
+    --color-accent: #A05434;
     
-    --color-background: #FBF9F4;
+    --color-background: #FEF9F1;
     --color-surface: #FFFFFF;
-    --color-surface-elevated: #F5F1E8;
+    --color-surface-elevated: #F3E6D9;
+    --color-neutral-100: #F7EFE4;
+    --color-neutral-200: #E6D5C2;
+    --color-neutral-300: #D3C0A9;
+    --color-neutral-400: #9E7960;
     
-    --color-text-primary: #3E2723;
-    --color-text-secondary: #5D4037;
-    --color-text-tertiary: #8D6E63;
+    --color-text-primary: #2F1A10;
+    --color-text-secondary: #543522;
+    --color-text-tertiary: #836048;
     --color-text-inverse: #FFFFFF;
+    --color-heading: color-mix(in srgb, var(--color-primary) 45%, var(--color-text-primary));
     
-    --color-border: #EFEBE5;
-    --color-divider: rgba(62, 39, 35, 0.12);
+    --color-border: #E8D9C6;
+    --color-border-strong: rgba(47, 26, 16, 0.2);
+    --color-divider: rgba(47, 26, 16, 0.12);
     
-    --color-success: #7CB342;
-    --color-warning: #FB8C00;
-    --color-error: #D84315;
-    --color-info: #5D4037;
+    --color-success: #789E37;
+    --color-warning: #E18B19;
+    --color-warning-dark: #B16B0F;
+    --color-error: #B24C2B;
+    --color-info: #6C4D38;
     
-    --shadow-sm: 0 1px 2px 0 rgba(62, 39, 35, 0.05);
-    --shadow-md: 0 4px 6px -1px rgba(62, 39, 35, 0.08), 0 2px 4px -1px rgba(62, 39, 35, 0.04);
-    --shadow-lg: 0 10px 15px -3px rgba(62, 39, 35, 0.1), 0 4px 6px -2px rgba(62, 39, 35, 0.05);
+    --overlay-hero-start: rgba(47, 26, 16, 0.7);
+    --overlay-hero-end: rgba(47, 26, 16, 0.4);
+    --color-text-inverse-muted: rgba(255,255,255,0.82);
+    --color-inverse-soft: color-mix(in srgb, var(--color-text-inverse) 78%, transparent);
+    --color-inverse-faint: color-mix(in srgb, var(--color-text-inverse) 32%, transparent);
+    --color-inverse-tint: color-mix(in srgb, var(--color-text-inverse) 16%, transparent);
+    --color-inverse-focus-ring: color-mix(in srgb, var(--color-text-inverse) 24%, transparent);
+    --gradient-primary: linear-gradient(135deg, var(--color-primary-dark) 0%, var(--color-primary) 55%, var(--color-primary-light) 100%);
+    --gradient-secondary: linear-gradient(135deg, var(--color-secondary-dark), var(--color-secondary));
+    --gradient-background: radial-gradient(circle at 20% 20%, color-mix(in srgb, var(--color-primary) 12%, var(--color-background)) 0%, var(--color-background) 50%, var(--color-surface) 100%);
+    --gradient-surface: linear-gradient(180deg, var(--color-surface) 0%, color-mix(in srgb, var(--color-surface) 75%, var(--color-background)) 100%);
+    
+    --shadow-sm: 0 1px 2px 0 rgba(47, 26, 16, 0.05);
+    --shadow-md: 0 8px 24px rgba(47, 26, 16, 0.09);
+    --shadow-lg: 0 18px 45px rgba(47, 26, 16, 0.14);
 }
 
 /* ========================================================
@@ -143,9 +198,65 @@ html {
 
 body {
     background-color: var(--color-background);
+    background-image: var(--gradient-background);
+    background-attachment: fixed;
+    background-size: cover;
     color: var(--color-text-primary);
     line-height: 1.6;
     -webkit-font-smoothing: antialiased;
+}
+
+.detail-page {
+    padding-top: var(--space-xl);
+    padding-bottom: calc(var(--space-xl) * 2);
+}
+
+.detail-page .return-actions {
+    margin-top: var(--space-xl);
+    margin-bottom: calc(var(--space-xl) * 1.5);
+}
+
+.detail-page .return-actions .btn {
+    min-width: 220px;
+}
+
+.page-content {
+    padding-top: var(--space-xl);
+    padding-bottom: calc(var(--space-xl) * 3);
+    min-height: 60vh;
+    background-image: var(--gradient-surface);
+    border-top: 1px solid var(--color-neutral-200);
+}
+
+body:not(.has-hero) .page-content {
+    padding-top: calc(var(--space-xl) * 1.5 + 4rem);
+    padding-bottom: calc(var(--space-xl) * 3.5);
+}
+
+@media (max-width: 768px) {
+    .page-content {
+        padding-top: var(--space-lg);
+        padding-bottom: calc(var(--space-xl) * 2);
+    }
+
+    body:not(.has-hero) .page-content {
+        padding-top: calc(var(--space-xl) + 3.5rem);
+        padding-bottom: calc(var(--space-xl) * 2.5);
+    }
+
+    .detail-page {
+        padding-top: var(--space-lg);
+        padding-bottom: var(--space-xl);
+    }
+
+    .detail-page .return-actions {
+        margin-top: var(--space-lg);
+        margin-bottom: var(--space-xl);
+    }
+
+    .detail-page .return-actions .btn {
+        width: 100%;
+    }
 }
 
 /* TIPOGRAFIA */
@@ -156,7 +267,7 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 h1 {
-    color: var(--color-primary);
+    color: var(--color-heading);
     font-size: 2.5rem;
     font-weight: 700;
 }
@@ -214,6 +325,22 @@ a:focus-visible {
     transform: translateY(0);
 }
 
+.btn-outline-primary {
+    --bs-btn-color: var(--color-primary);
+    --bs-btn-border-color: var(--color-primary);
+    --bs-btn-hover-color: var(--color-text-inverse);
+    --bs-btn-hover-bg: var(--color-primary);
+    --bs-btn-hover-border-color: var(--color-primary);
+    --bs-btn-active-color: var(--color-text-inverse);
+    --bs-btn-active-bg: var(--color-primary-dark);
+    --bs-btn-active-border-color: var(--color-primary-dark);
+}
+
+.btn-outline-primary:hover {
+    box-shadow: var(--shadow-sm);
+    transform: translateY(-1px);
+}
+
 .btn-secondary {
     --bs-btn-bg: var(--color-secondary);
     --bs-btn-border-color: var(--color-secondary);
@@ -234,6 +361,282 @@ a:focus-visible {
     box-shadow: var(--shadow-md);
     transform: translateY(-2px);
 }
+
+/* ========================================================
+   FOOTER
+   ======================================================== */
+.site-footer {
+    background: var(--gradient-primary);
+    color: var(--color-text-inverse);
+    border-top: 6px solid var(--color-secondary);
+}
+
+.site-footer .footer-heading {
+    color: var(--color-text-inverse);
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+}
+
+.site-footer .footer-subheading {
+    color: var(--color-secondary-light);
+    font-weight: 600;
+    letter-spacing: 0.03em;
+    text-transform: uppercase;
+}
+
+.site-footer .footer-text {
+    color: rgba(255, 255, 255, 0.85);
+    line-height: 1.6;
+}
+
+.site-footer .footer-icon {
+    color: var(--color-secondary-light);
+}
+
+.site-footer .footer-link {
+    color: var(--color-inverse-soft);
+    text-decoration: none;
+    transition: color var(--transition-fast);
+}
+
+.site-footer .footer-link:hover {
+    color: var(--color-text-inverse);
+}
+
+.site-footer .social-links .footer-social-link {
+    width: 40px;
+    height: 40px;
+    border-radius: var(--radius-full);
+    border: 1px solid var(--color-inverse-faint);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--color-text-inverse);
+    transition: all var(--transition-fast);
+}
+
+.site-footer .social-links .footer-social-link:hover {
+    background: var(--color-inverse-tint);
+    color: var(--color-text-inverse);
+    transform: translateY(-2px);
+}
+
+.site-footer .footer-input {
+    background: var(--color-inverse-tint);
+    border-color: var(--color-inverse-faint);
+    color: var(--color-text-inverse);
+}
+
+.site-footer .footer-input::placeholder {
+    color: var(--color-text-inverse-muted);
+}
+
+.site-footer .footer-btn {
+    border-radius: 0 var(--radius-md) var(--radius-md) 0;
+}
+
+.site-footer .footer-divider {
+    border-color: var(--color-inverse-faint);
+}
+
+.site-footer .input-group .form-control:focus {
+    box-shadow: 0 0 0 0.25rem var(--color-inverse-focus-ring);
+}
+
+/* ========================================================
+   CARD UNIFORMI - DESIGN MODERNO PER TUTTO IL SITO
+   ======================================================== */
+
+.site-card {
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-sm);
+    overflow: hidden;
+    transition: all var(--transition-base);
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+.site-card:hover {
+    box-shadow: var(--shadow-md);
+    transform: translateY(-2px);
+}
+
+.site-card-image {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+    border-bottom: 1px solid var(--color-border);
+}
+
+.site-card-body {
+    padding: var(--space-lg);
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+.site-card-title {
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: var(--color-text-primary);
+    margin-bottom: var(--space-sm);
+    line-height: 1.3;
+}
+
+.site-card-title a {
+    color: inherit;
+    text-decoration: none;
+    transition: color var(--transition-fast);
+}
+
+.site-card-title a:hover {
+    color: var(--color-primary);
+}
+
+.site-card-meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-sm);
+    color: var(--color-text-secondary);
+    font-size: 0.875rem;
+    margin-bottom: var(--space-md);
+}
+
+.site-card-meta-item {
+    display: flex;
+    align-items: center;
+}
+
+.site-card-meta-item i {
+    margin-right: var(--space-xs);
+    color: var(--color-primary);
+}
+
+.site-card-description {
+    color: var(--color-text-secondary);
+    line-height: 1.5;
+    margin-bottom: var(--space-lg);
+    flex: 1;
+}
+
+.site-card-actions {
+    margin-top: auto;
+}
+
+.site-card-actions .btn {
+    min-width: 120px;
+    font-weight: 500;
+    border-radius: var(--radius-md);
+    transition: all var(--transition-fast);
+}
+
+.site-card-actions .btn:hover {
+    transform: translateY(-1px);
+    box-shadow: var(--shadow-sm);
+}
+
+/* Card specifiche per tipo */
+.opera-card .site-card-image {
+    height: 250px;
+}
+
+.evento-card .site-card-image {
+    height: 180px;
+}
+
+.notizia-card .site-card-image {
+    height: 180px;
+}
+
+/* Responsive per card */
+@media (max-width: 768px) {
+    .site-card-body {
+        padding: var(--space-md);
+    }
+
+    .site-card-title {
+        font-size: 1.125rem;
+    }
+
+    .site-card-meta {
+        flex-direction: column;
+        gap: var(--space-xs);
+    }
+
+    .site-card-actions .btn {
+        width: 100%;
+        margin-bottom: var(--space-xs);
+    }
+}
+
+/* ========================================================
+   SEZIONI E LAYOUT
+   ======================================================== */
+
+.site-section {
+    padding: var(--space-xl) 0;
+}
+
+.site-section-header {
+    text-align: center;
+    margin-bottom: var(--space-xl);
+}
+
+.site-section-title {
+    font-size: 2.5rem;
+    font-weight: 700;
+    color: var(--color-heading);
+    margin-bottom: var(--space-md);
+}
+
+.site-section-subtitle {
+    font-size: 1.125rem;
+    color: var(--color-text-secondary);
+    max-width: 600px;
+    margin: 0 auto;
+    line-height: 1.6;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .site-section-title {
+        font-size: 2rem;
+    }
+
+    .site-section-subtitle {
+        font-size: 1rem;
+    }
+}
+
+/* ========================================================
+   ANIMAZIONI ENTRATA
+   ======================================================== */
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.site-card {
+    animation: fadeInUp 0.6s ease-out;
+}
+
+.site-card:nth-child(1) { animation-delay: 0.1s; }
+.site-card:nth-child(2) { animation-delay: 0.2s; }
+.site-card:nth-child(3) { animation-delay: 0.3s; }
+.site-card:nth-child(4) { animation-delay: 0.4s; }
+.site-card:nth-child(5) { animation-delay: 0.5s; }
+.site-card:nth-child(6) { animation-delay: 0.6s; }
 
 /* FORMS - Override Bootstrap */
 .form-control,
@@ -261,4 +664,51 @@ a:focus-visible {
 
 .text-muted {
     color: var(--color-text-tertiary) !important;
+}
+
+/* ========================================================
+   ALERT PERSONALIZZATI - TEMA DEL SITO
+   ======================================================== */
+
+.alert {
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+    padding: var(--space-lg);
+    margin-bottom: var(--space-lg);
+}
+
+.alert-info {
+    background-color: var(--color-primary-pale);
+    border-color: var(--color-primary-light);
+    color: var(--color-text-primary);
+}
+
+.alert-info h5,
+.alert-info h4,
+.alert-info h3 {
+    color: var(--color-primary-dark);
+    margin-bottom: var(--space-sm);
+}
+
+.alert-info p {
+    color: var(--color-text-secondary);
+    margin-bottom: 0;
+}
+
+.alert-success {
+    background-color: color-mix(in srgb, var(--color-success) 15%, var(--color-surface));
+    border-color: var(--color-success);
+    color: var(--color-text-primary);
+}
+
+.alert-warning {
+    background-color: color-mix(in srgb, var(--color-warning) 15%, var(--color-surface));
+    border-color: var(--color-warning);
+    color: var(--color-text-primary);
+}
+
+.alert-danger {
+    background-color: color-mix(in srgb, var(--color-error) 15%, var(--color-surface));
+    border-color: var(--color-error);
+    color: var(--color-text-primary);
 }

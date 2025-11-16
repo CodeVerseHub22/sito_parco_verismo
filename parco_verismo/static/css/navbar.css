@@ -5,6 +5,15 @@
     padding: var(--space-md) 0;
 }
 
+/* Navbar nelle pagine non-homepage: sempre scura */
+#mainNav.navbar-dark-pages {
+    background-color: var(--color-surface);
+    backdrop-filter: blur(10px);
+    border-bottom: 1px solid var(--color-border);
+    padding: var(--space-sm) 0;
+    box-shadow: var(--shadow-md);
+}
+
 #mainNav.navbar-scrolled {
     background-color: var(--color-surface);
     backdrop-filter: blur(10px);
@@ -13,10 +22,36 @@
     box-shadow: var(--shadow-md);
 }
 
+#mainNav.navbar-scrolled .navbar-nav .nav-link {
+    color: var(--color-text-primary);
+}
+
+#mainNav.navbar-scrolled .navbar-nav .nav-link:hover,
+#mainNav.navbar-scrolled .navbar-nav .nav-link.active,
+#mainNav.navbar-dark-pages .navbar-nav .nav-link:hover,
+#mainNav.navbar-dark-pages .navbar-nav .nav-link.active {
+    color: var(--color-primary);
+}
+
 /* Logo */
+#mainNav .navbar-brand {
+    color: var(--color-text-inverse);
+    transition: color var(--transition-base);
+}
+
+#mainNav.navbar-scrolled .navbar-brand,
+#mainNav.navbar-dark-pages .navbar-brand {
+    color: var(--color-text-primary);
+}
+
 .logo-header {
     height: 4rem;
-    transition: height var(--transition-base);
+    transition: height var(--transition-base), opacity var(--transition-base);
+}
+
+/* Logo nero nelle pagine non-homepage */
+#mainNav.navbar-dark-pages .logo-header {
+    height: 3rem;
 }
 
 #mainNav.navbar-scrolled .logo-header {
@@ -25,12 +60,16 @@
 
 /* Link della navbar */
 #mainNav .navbar-nav .nav-link {
-    color: var(--color-text-primary);
+    color: var(--color-text-inverse);
     font-weight: 500;
-    ;
     padding: var(--space-sm) var(--space-md);
     transition: color var(--transition-fast);
     position: relative;
+}
+
+/* Link scuri nelle pagine non-homepage */
+#mainNav.navbar-dark-pages .navbar-nav .nav-link {
+    color: var(--color-text-primary);
 }
 
 #mainNav .navbar-nav .nav-link::after {
@@ -46,6 +85,10 @@
 }
 
 #mainNav .navbar-nav .nav-link:hover {
+    color: var(--color-primary-light);
+}
+
+#mainNav.navbar-dark-pages .navbar-nav .nav-link:hover {
     color: var(--color-primary);
 }
 
@@ -54,7 +97,7 @@
 }
 
 #mainNav .navbar-nav .nav-link.active {
-    color: var(--color-primary);
+    color: var(--color-primary-light);
 }
 
 /* Dropdown Menu */
@@ -99,8 +142,9 @@
 
 /* Navbar Toggler (mobile) */
 .navbar-toggler {
-    border-color: var(--color-border-strong);
+    border-color: rgba(255, 255, 255, 0.6);
     padding: var(--space-sm);
+    transition: border-color var(--transition-base);
 }
 
 .navbar-toggler:focus {
@@ -108,8 +152,96 @@
     border-color: var(--color-primary);
 }
 
+#mainNav.navbar-scrolled .navbar-toggler,
+#mainNav.navbar-dark-pages .navbar-toggler {
+    border-color: var(--color-border-strong);
+}
+
 .navbar-toggler-icon {
-    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3e%3cpath stroke='rgb(43, 36, 25)' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e");
+    position: relative;
+    width: 1.5rem;
+    height: 1.5rem;
+    background-image: linear-gradient(var(--color-text-inverse), var(--color-text-inverse));
+    background-repeat: no-repeat;
+    background-size: 100% 2px;
+    background-position: center;
+}
+
+.navbar-toggler-icon::before,
+.navbar-toggler-icon::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    width: 100%;
+    height: 2px;
+    border-radius: var(--radius-full);
+    background-color: var(--color-text-inverse);
+    transition: background-color var(--transition-fast);
+}
+
+.navbar-toggler-icon::before {
+    top: 4px;
+}
+
+.navbar-toggler-icon::after {
+    bottom: 4px;
+}
+
+#mainNav.navbar-scrolled .navbar-toggler-icon,
+#mainNav.navbar-dark-pages .navbar-toggler-icon {
+    background-image: linear-gradient(var(--color-text-primary), var(--color-text-primary));
+}
+
+#mainNav.navbar-scrolled .navbar-toggler-icon::before,
+#mainNav.navbar-scrolled .navbar-toggler-icon::after,
+#mainNav.navbar-dark-pages .navbar-toggler-icon::before,
+#mainNav.navbar-dark-pages .navbar-toggler-icon::after {
+    background-color: var(--color-text-primary);
+}
+
+/* Language Switcher */
+.language-switcher {
+    gap: 0.35rem;
+}
+
+.language-switcher .lang-toggle {
+    border: none;
+    background: transparent;
+    color: var(--color-text-inverse);
+    font-size: 0.85rem;
+    font-weight: 500;
+    padding: 0.15rem 0.25rem;
+    transition: color var(--transition-fast);
+}
+
+.language-switcher .lang-toggle.active {
+    color: var(--color-primary-light);
+}
+
+.language-switcher .lang-toggle:hover {
+    color: var(--color-primary-light);
+}
+
+.language-switcher .lang-separator {
+    color: rgba(255, 255, 255, 0.8);
+    font-size: 0.85rem;
+}
+
+#mainNav.navbar-scrolled .language-switcher .lang-toggle,
+#mainNav.navbar-dark-pages .language-switcher .lang-toggle {
+    color: var(--color-text-primary);
+}
+
+#mainNav.navbar-scrolled .language-switcher .lang-toggle.active,
+#mainNav.navbar-scrolled .language-switcher .lang-toggle:hover,
+#mainNav.navbar-dark-pages .language-switcher .lang-toggle.active,
+#mainNav.navbar-dark-pages .language-switcher .lang-toggle:hover {
+    color: var(--color-primary);
+}
+
+#mainNav.navbar-scrolled .language-switcher .lang-separator,
+#mainNav.navbar-dark-pages .language-switcher .lang-separator {
+    color: var(--color-text-secondary);
 }
 
 /* Responsive */
